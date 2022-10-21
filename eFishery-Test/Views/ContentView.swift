@@ -8,14 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var sliderPosition: ClosedRange<Float> = 0...1000000
+    @State private var showFilter = false
     private let itemColumns = [GridItem(.flexible()),
                                 GridItem(.flexible())]
     
     var body: some View {
         VStack(spacing: 0) {
+            //Header
             VStack(spacing: 16) {
                 HStack {
-                    Text("Lits perikanan di Indonesia")
+                    Text("Lits Perikanan di Indonesia")
                         .font(.custom(Cnst.txt.fInterBold, size: 16))
                         .foregroundColor(.N100)
                     Spacer()
@@ -28,6 +31,11 @@ struct ContentView: View {
                         .font(.custom(Cnst.txt.fInterBold, size: 16))
                         .foregroundColor(.N100)
                         .frame(width: 24, height: 24)
+                        .onTapGesture {
+                            withAnimation {
+                                showFilter = true
+                            }
+                        }
                 }
                 HStack {
                     TextField("Search Subject", text: .constant(""))
@@ -57,9 +65,10 @@ struct ContentView: View {
                 .padding(.vertical, 24)
             }
         }
+        .overlay { CustomSheetShowHide(show: $showFilter) { ListFishilterSortSheet() } }
     }
     
-    func FishItemCardView() -> some View {
+    private func FishItemCardView() -> some View {
         let square = (UIScreen.main.bounds.width - 48) / 2
         return VStack(spacing: 0) {
             Image(Cnst.img.dummyFish)
@@ -102,6 +111,85 @@ struct ContentView: View {
         .cornerRadius(12)
         .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: -2)
     }
+    private func ListFishilterSortSheet() -> some View {
+        return VStack(spacing: 0) {
+            Capsule()
+                .fill(Color.N50)
+                .frame(width: 32, height: 5)
+                .padding(8)
+            
+            ScrollView(showsIndicators: false) {
+                VStack(alignment: .leading, spacing: 24) {
+                    Text("Filter dan Urutkan")
+                        .font(.custom(Cnst.txt.fInterBold, size: 16))
+                    VStack(alignment: .leading, spacing: 16) {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Urutkan berdasarkan...")
+                                .font(.custom(Cnst.txt.fInterSemiBold, size: 14))
+                            VStack(alignment: .leading, spacing: 8) {
+                                ForEach(1...4, id: \.self) { _ in
+                                    HStack {
+                                        //let slct = selectSortingResto == srt
+                                        //Image(systemName: slct ? "record.circle": "circle")
+                                        Image(systemName: "circle")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                            //.foregroundColor(slct ? .JKP100: .JKB50)
+                                            .foregroundColor(.R100)
+                                            .frame(width: 24, height: 24)
+                                        Text("Harga terendah")
+                                            .font(.custom(Cnst.txt.fInterRegular, size: 14))
+                                    }
+                                    .contentShape(Rectangle())
+                                    .onTapGesture {
+                                        withAnimation {
+                                            //selectSortingResto = srt
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                        Capsule()
+                            .foregroundColor(.N100)
+                            .frame(height: 1)
+                        
+                        VStack(alignment: .leading, spacing: 36) {
+                            Text("Hanya tampilkan dengan harga...")
+                                .font(.custom(Cnst.txt.fInterSemiBold, size: 14))
+                            CustomRangedSliderView(value: $sliderPosition, bounds: 0...1000000)
+                        }
+                    }
+                }
+                .padding()
+            }
+            
+            Button {
+                withAnimation {
+                    showFilter = false
+                }
+            } label: {
+                Text("Tampilkan Hasil")
+                    .font(.custom(Cnst.txt.fInterSemiBold, size: 14))
+                    .padding(.vertical)
+                    .frame(maxWidth: .infinity)
+                    .foregroundColor(.N0)
+                    .background(Color.R100)
+                    .cornerRadius(30)
+                    .padding()
+                    .padding(.bottom, GetHeightSafeArea())
+                    .background(Color.N0)
+                    .clipped()
+                    .shadow(color: .black.opacity(0.1), radius: 6, x: 0, y: 0)
+            }
+        }
+        .frame(height: 450 + (GetHeightSafeArea() ?? 0))
+    }
+}
+
+func GetHeightSafeArea(tops: Bool = false) -> CGFloat? {
+    let safeAreaInsts = UIApplication.shared.windows.first?.safeAreaInsets
+    return tops ? safeAreaInsts?.top: safeAreaInsts?.bottom
 }
 
 struct ContentView_Previews: PreviewProvider {
