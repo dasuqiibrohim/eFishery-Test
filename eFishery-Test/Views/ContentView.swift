@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var viewModel = ContentViewModel()
     @State var sliderPosition: ClosedRange<Float> = 0...1000000
     @State private var showFilter = false
     private let itemColumns = [GridItem(.flexible()),
@@ -18,7 +19,7 @@ struct ContentView: View {
             //Header
             VStack(spacing: 16) {
                 HStack {
-                    Text("Lits Perikanan di Indonesia")
+                    Text("List Perikanan di Indonesia")
                         .font(.custom(Cnst.txt.fInterBold, size: 16))
                         .foregroundColor(.N100)
                     Spacer()
@@ -55,19 +56,39 @@ struct ContentView: View {
             .padding()
             Divider()
             
-            ScrollView(showsIndicators: false) {
-                LazyVGrid(columns: itemColumns, spacing: 24) {
-                    ForEach(1...11, id: \.self) { _ in
-                        FishItemCardView()
+            if viewModel.myListFish.isEmpty {
+                ListNotFoundView()
+            } else {
+                ScrollView(showsIndicators: false) {
+                    LazyVGrid(columns: itemColumns, spacing: 24) {
+                        ForEach(viewModel.myListFish) { fish in
+                            FishItemCardView()
+                        }
                     }
+                    .padding(.horizontal)
+                    .padding(.vertical, 24)
                 }
-                .padding(.horizontal)
-                .padding(.vertical, 24)
+                .redacted(reason: viewModel.shmrAll ? .placeholder: [])
             }
         }
+        .navigationBarHidden(true)
         .overlay { CustomSheetShowHide(show: $showFilter) { ListFishilterSortSheet() } }
+        .onAppear {
+            viewModel.GetReadDataFromList()
+            //viewModel.GetReadDataFromOptionArea()
+            //viewModel.GetReadDataFromSize()
+        }
     }
     
+    private func ListNotFoundView() -> some View {
+        VStack(spacing: 24) {
+            Image(Cnst.img.listEmpty)
+            Text("Belum ada list perikanan")
+                .font(.custom(Cnst.txt.fInterSemiBold, size: 14))
+                .foregroundColor(.N50)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
     private func FishItemCardView() -> some View {
         let square = (UIScreen.main.bounds.width - 48) / 2
         return VStack(spacing: 0) {
@@ -120,8 +141,15 @@ struct ContentView: View {
             
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 24) {
-                    Text("Filter dan Urutkan")
-                        .font(.custom(Cnst.txt.fInterBold, size: 16))
+                    HStack {
+                        Text("Filter dan Urutkan")
+                            .font(.custom(Cnst.txt.fInterBold, size: 16))
+                        Spacer()
+                        Text("Reset")
+                            .underline()
+                            .font(.custom(Cnst.txt.fInterRegular, size: 14))
+                            .foregroundColor(.R100)
+                    }
                     VStack(alignment: .leading, spacing: 16) {
                         VStack(alignment: .leading, spacing: 12) {
                             Text("Urutkan berdasarkan...")
@@ -185,11 +213,6 @@ struct ContentView: View {
         }
         .frame(height: 450 + (GetHeightSafeArea() ?? 0))
     }
-}
-
-func GetHeightSafeArea(tops: Bool = false) -> CGFloat? {
-    let safeAreaInsts = UIApplication.shared.windows.first?.safeAreaInsets
-    return tops ? safeAreaInsts?.top: safeAreaInsts?.bottom
 }
 
 struct ContentView_Previews: PreviewProvider {

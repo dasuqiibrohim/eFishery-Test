@@ -16,5 +16,12 @@ extension Cnst {
     }
     struct img {
         static let dummyFish = "dummy_fish"
+        static let listEmpty = "list_empty"
+        static let errorConnection = "error_connection"
+        static let errorDecodeFailed = "error_decode_failed"
+        static let errorSystem = "error_system"
+    }
+    struct ntw {
+        static let apiID = "5e1edf521073e315924ceab4/"
     }
 }

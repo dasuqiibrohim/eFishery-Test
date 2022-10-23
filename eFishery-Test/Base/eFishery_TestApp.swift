@@ -11,7 +11,9 @@ import SwiftUI
 struct eFishery_TestApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            BaseView {
+                ContentView()
+            }
         }
     }
 }

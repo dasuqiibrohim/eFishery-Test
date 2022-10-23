@@ -85,7 +85,6 @@ struct CustomRangedSliderView: View {
         }
         .stroke(Color.N50, lineWidth: 4)
     }
-    
     @ViewBuilder func thumbView(position: CGPoint, value: Float) -> some View {
         ZStack {
             Text(String(value))
