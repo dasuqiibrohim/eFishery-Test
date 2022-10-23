@@ -18,7 +18,7 @@ class ContentViewModel: BaseViewModel {
         self.shmrAll = true
         CentralRepository.shared.ReadDataFromList { reslt in
             self.HandleWrapperObject(dly: .medium, result: reslt) { dt in
-                self.myListFish = dt ?? []
+                self.myListFish = dt?.filter{ $0.komoditas != nil } ?? []
                 self.shmrAll = false
             }
         }
@@ -35,6 +35,20 @@ class ContentViewModel: BaseViewModel {
             self.HandleWrapperObject(dly: .short, result: reslt) { dt in
                 self.myOptionSize = dt ?? []
             }
+        }
+    }
+    
+    func convertToRupiah(_ str: String) -> String {
+        let harga = Int(str) ?? 0
+         
+        let formatter = NumberFormatter()
+        formatter.locale = Locale(identifier: "id_ID")
+        formatter.groupingSeparator = "."
+        formatter.numberStyle = .decimal
+        if let formattedTipAmount = formatter.string(from: harga as NSNumber) {
+            return "Rp \(formattedTipAmount)"
+        } else {
+            return "Format rupiah salah."
         }
     }
 }

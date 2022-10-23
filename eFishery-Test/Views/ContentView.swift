@@ -62,7 +62,7 @@ struct ContentView: View {
                 ScrollView(showsIndicators: false) {
                     LazyVGrid(columns: itemColumns, spacing: 24) {
                         ForEach(viewModel.myListFish) { fish in
-                            FishItemCardView()
+                            FishItemCardView(fish)
                         }
                     }
                     .padding(.horizontal)
@@ -89,7 +89,7 @@ struct ContentView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
-    private func FishItemCardView() -> some View {
+    private func FishItemCardView(_ fish: FishListResponse) -> some View {
         let square = (UIScreen.main.bounds.width - 48) / 2
         return VStack(spacing: 0) {
             Image(Cnst.img.dummyFish)
@@ -100,10 +100,10 @@ struct ContentView: View {
                 
             VStack(alignment: .leading, spacing: 16) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Ikan Bandeng")
+                    Text("Ikan \(fish.komoditas ?? "")")
                         .font(.custom(Cnst.txt.fInterSemiBold, size: 12))
                         .foregroundColor(.N100)
-                    Text("Aceh Kota, Aceh")
+                    Text("\(fish.areaKota?.capitalized ?? ""), \(fish.areaProvinsi?.capitalized ?? "")")
                         .font(.custom(Cnst.txt.fInterRegular, size: 10))
                         .foregroundColor(.N50)
                     HStack(spacing: 4) {
@@ -112,14 +112,14 @@ struct ContentView: View {
                             .frame(width: 12, height: 12)
                             .font(.custom(Cnst.txt.fInterBold, size: 14))
                             .foregroundColor(.R100)
-                        Text("40Kg")
+                        Text("\(fish.size ?? "0")Kg")
                             .font(.custom(Cnst.txt.fInterSemiBold, size: 10))
                             .foregroundColor(.N50)
                     }
                 }
                 HStack(spacing: 0) {
                     Spacer(minLength: 0)
-                    Text("Rp 200.000")
+                    Text(viewModel.convertToRupiah(fish.price ?? "0"))
                         .font(.custom(Cnst.txt.fInterBold, size: 14))
                         .foregroundColor(.G100)
                 }
