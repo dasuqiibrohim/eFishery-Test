@@ -5,14 +5,35 @@
 //  Created by ACI 2 on 24/10/22.
 //
 
-import Foundation
+import SwiftUI
+import Combine
 
 class ContentViewModel: BaseViewModel {
     @Published var myListFish: [FishListResponse] = [FishListResponse(), FishListResponse()]
+    @Published var sListFish: [FishListResponse]? = []
     @Published var myOptionArea: [OptionAreaResponse] = []
     @Published var myOptionSize: [OptionSizeResponse] = []
     
     @Published var shmrAll: Bool = false
+    
+    @Published var searchText = ""
+    private var searchCancellable: AnyCancellable?
+    
+    override init() {
+        super.init()
+        searchCancellable = self.$searchText.removeDuplicates()
+            .debounce(for: 2.0, scheduler: RunLoop.main)
+            .sink(receiveValue: { str in
+                if str != "" {
+                    self.SearchListFish()
+                } else {
+                    self.sListFish = nil
+                }
+            })
+    }
+    deinit {
+        searchCancellable?.cancel()
+    }
     
     func GetReadDataFromList() {
         self.shmrAll = true
@@ -56,6 +77,24 @@ class ContentViewModel: BaseViewModel {
                 break
             }
             shmrAll = false
+        }
+    }
+    func SearchListFish() {
+        DispatchQueue.global(qos: .userInteractive).async {
+            let result = self.myListFish
+                .lazy
+                .filter { wsh in
+                    return wsh.komoditas!.lowercased().contains(self.searchText.lowercased())
+                }
+            
+            DispatchQueue.main.async {
+                withAnimation {
+                    self.sListFish = result.compactMap({ gwr in
+                        return gwr
+                    })
+                    UIApplication.shared.endEditing()
+                }
+            }
         }
     }
 }

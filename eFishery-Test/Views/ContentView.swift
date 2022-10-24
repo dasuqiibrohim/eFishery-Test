@@ -44,11 +44,20 @@ struct ContentView: View {
                             }
                         }
                 }
+                //Search
                 HStack {
-                    TextField("Search Subject", text: .constant(""))
-                        .frame(maxWidth: .infinity)
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.N50)
+                    TextField("Search Subject komoditas ikan", text: $viewModel.searchText)
+                        .frame(maxWidth: .infinity)
+                    if !viewModel.searchText.isEmpty {
+                        Image(systemName: "xmark.circle.fill")
+                            .onTapGesture {
+                                withAnimation {
+                                    viewModel.searchText = ""
+                                }
+                            }
+                    }
                 }
                 .font(.custom(Cnst.txt.fInterRegular, size: 14))
                 .contentShape(Rectangle())
@@ -62,19 +71,34 @@ struct ContentView: View {
             .padding()
             Divider()
             
-            if viewModel.myListFish.isEmpty {
-                ListNotFoundView()
-            } else {
-                ScrollView(showsIndicators: false) {
-                    LazyVGrid(columns: itemColumns, spacing: 24) {
-                        ForEach(viewModel.myListFish) { fish in
-                            FishItemCardView(fish)
-                        }
-                    }
-                    .padding(.horizontal)
-                    .padding(.vertical, 24)
+            if viewModel.searchText.isEmpty {
+                if viewModel.myListFish.isEmpty {
+                    ListNotFoundView()
+                } else {
+                    ListFishView(viewModel.myListFish)
+                    .redacted(reason: viewModel.shmrAll ? .placeholder: [])
                 }
-                .redacted(reason: viewModel.shmrAll ? .placeholder: [])
+            } else {
+                if let sFish = viewModel.sListFish {
+                    if sFish.isEmpty {
+                        ListNotFoundView()
+                    } else {
+                        ListFishView(sFish)
+                    }
+                } else {
+                    VStack {
+                        HStack(spacing: 16) {
+                            CustomLottieView(jsonName: Cnst.ltt.search, loopMode: .loop)
+                                .frame(width: 39, height: 39)
+                            Text("Mencari \(viewModel.searchText)...")
+                                .font(.custom(Cnst.txt.fInterSemiBold, size: 12))
+                                .foregroundColor(.N50)
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        Spacer()
+                    }
+                }
             }
         }
         .navigationBarHidden(true)
@@ -95,6 +119,17 @@ struct ContentView: View {
                 .foregroundColor(.N50)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+    private func ListFishView(_ lst: [FishListResponse]) -> some View {
+        ScrollView(showsIndicators: false) {
+            LazyVGrid(columns: itemColumns, spacing: 24) {
+                ForEach(lst) { fish in
+                    FishItemCardView(fish)
+                }
+            }
+            .padding(.horizontal)
+            .padding(.vertical, 24)
+        }
     }
     private func FishItemCardView(_ fish: FishListResponse) -> some View {
         let square = (UIScreen.main.bounds.width - 40) / 2

@@ -21,6 +21,9 @@ extension Cnst {
         static let errorDecodeFailed = "error_decode_failed"
         static let errorSystem = "error_system"
     }
+    struct ltt {
+        static let search = "search_lottie"
+    }
     struct ntw {
         static let apiID = "5e1edf521073e315924ceab4/"
     }
