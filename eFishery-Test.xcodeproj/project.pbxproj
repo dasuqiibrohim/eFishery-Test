@@ -21,6 +21,8 @@
 		6E04A7EF2905D7C000DC5894 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E04A7EE2905D7C000DC5894 /* BaseViewModel.swift */; };
 		6E04A7F12905DA0A00DC5894 /* ExtensionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E04A7F02905DA0A00DC5894 /* ExtensionView.swift */; };
 		6E04A7F32905DA4A00DC5894 /* CustomErrorSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E04A7F22905DA4A00DC5894 /* CustomErrorSheet.swift */; };
+		6E084B61290628DF00102509 /* ExtensionString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E084B60290628DF00102509 /* ExtensionString.swift */; };
+		6E084B6429062D8B00102509 /* SortStructModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E084B6329062D8B00102509 /* SortStructModel.swift */; };
 		6E1EE6D029023E43008422D1 /* eFishery_TestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1EE6CF29023E43008422D1 /* eFishery_TestApp.swift */; };
 		6E1EE6D229023E43008422D1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1EE6D129023E43008422D1 /* ContentView.swift */; };
 		6E1EE6D429023E44008422D1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E1EE6D329023E44008422D1 /* Assets.xcassets */; };
@@ -51,6 +53,8 @@
 		6E04A7EE2905D7C000DC5894 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		6E04A7F02905DA0A00DC5894 /* ExtensionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionView.swift; sourceTree = "<group>"; };
 		6E04A7F22905DA4A00DC5894 /* CustomErrorSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomErrorSheet.swift; sourceTree = "<group>"; };
+		6E084B60290628DF00102509 /* ExtensionString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionString.swift; sourceTree = "<group>"; };
+		6E084B6329062D8B00102509 /* SortStructModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortStructModel.swift; sourceTree = "<group>"; };
 		6E1EE6CC29023E43008422D1 /* eFishery-Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "eFishery-Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E1EE6CF29023E43008422D1 /* eFishery_TestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eFishery_TestApp.swift; sourceTree = "<group>"; };
 		6E1EE6D129023E43008422D1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -102,6 +106,14 @@
 			path = Response;
 			sourceTree = "<group>";
 		};
+		6E084B6229062D8300102509 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				6E084B6329062D8B00102509 /* SortStructModel.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
 		6E1EE6C329023E43008422D1 = {
 			isa = PBXGroup;
 			children = (
@@ -148,6 +160,7 @@
 				6E60A3B429034B3F009BB4C7 /* ExtensionUIApplication.swift */,
 				6E04A7E92905D49700DC5894 /* ExtensionData.swift */,
 				6E04A7F02905DA0A00DC5894 /* ExtensionView.swift */,
+				6E084B60290628DF00102509 /* ExtensionString.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -186,6 +199,7 @@
 			isa = PBXGroup;
 			children = (
 				6E04A7DE2905D13100DC5894 /* Base */,
+				6E084B6229062D8300102509 /* Request */,
 				6E04A7DF2905D13A00DC5894 /* Response */,
 			);
 			path = Network;
@@ -308,10 +322,12 @@
 				6E04A7D92905CCAE00DC5894 /* BaseRepository.swift in Sources */,
 				6ED3B344290277B3004C41FF /* ExtensionColor.swift in Sources */,
 				6E60A3B529034B3F009BB4C7 /* ExtensionUIApplication.swift in Sources */,
+				6E084B61290628DF00102509 /* ExtensionString.swift in Sources */,
 				6E04A7DB2905CE2900DC5894 /* CentralRoute.swift in Sources */,
 				6E04A7EC2905D7AD00DC5894 /* BaseView.swift in Sources */,
 				6E60A3B729034FA4009BB4C7 /* CustomRangedSliderView.swift in Sources */,
 				6ED3B34729027901004C41FF /* Cnst.swift in Sources */,
+				6E084B6429062D8B00102509 /* SortStructModel.swift in Sources */,
 				6E04A7F32905DA4A00DC5894 /* CustomErrorSheet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

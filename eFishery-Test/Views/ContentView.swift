@@ -9,8 +9,14 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var viewModel = ContentViewModel()
-    @State var sliderPosition: ClosedRange<Float> = 0...1000000
+    @State private var selectFilterPrice: ClosedRange<Float> = 0...1000000
+    @State private var selectSortType = 0
     @State private var showFilter = false
+    
+    private let sortingData = [SortStructModel(tt: "Harga: Terendah", vl: 1),
+                               SortStructModel(tt: "Harga: Tertinggi", vl: 2),
+                               SortStructModel(tt: "Size: Terkecil", vl: 3),
+                               SortStructModel(tt: "Size: Terbesar", vl: 4)]
     private let itemColumns = [GridItem(.flexible()),
                                 GridItem(.flexible())]
     
@@ -79,6 +85,7 @@ struct ContentView: View {
             //viewModel.GetReadDataFromSize()
         }
     }
+
     
     private func ListNotFoundView() -> some View {
         VStack(spacing: 24) {
@@ -90,7 +97,7 @@ struct ContentView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     private func FishItemCardView(_ fish: FishListResponse) -> some View {
-        let square = (UIScreen.main.bounds.width - 48) / 2
+        let square = (UIScreen.main.bounds.width - 40) / 2
         return VStack(spacing: 0) {
             Image(Cnst.img.dummyFish)
                 .resizable()
@@ -100,10 +107,10 @@ struct ContentView: View {
                 
             VStack(alignment: .leading, spacing: 16) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Ikan \(fish.komoditas ?? "")")
+                    Text("Ikan \(fish.komoditas!)")
                         .font(.custom(Cnst.txt.fInterSemiBold, size: 12))
                         .foregroundColor(.N100)
-                    Text("\(fish.areaKota?.capitalized ?? ""), \(fish.areaProvinsi?.capitalized ?? "")")
+                    Text("\(fish.areaKota!.capitalized), \(fish.areaProvinsi!.capitalized)")
                         .font(.custom(Cnst.txt.fInterRegular, size: 10))
                         .foregroundColor(.N50)
                     HStack(spacing: 4) {
@@ -112,14 +119,14 @@ struct ContentView: View {
                             .frame(width: 12, height: 12)
                             .font(.custom(Cnst.txt.fInterBold, size: 14))
                             .foregroundColor(.R100)
-                        Text("\(fish.size ?? "0")Kg")
+                        Text("\(fish.size!)Kg")
                             .font(.custom(Cnst.txt.fInterSemiBold, size: 10))
                             .foregroundColor(.N50)
                     }
                 }
                 HStack(spacing: 0) {
                     Spacer(minLength: 0)
-                    Text(viewModel.convertToRupiah(fish.price ?? "0"))
+                    Text(fish.price!.toRupiah)
                         .font(.custom(Cnst.txt.fInterBold, size: 14))
                         .foregroundColor(.G100)
                 }
@@ -145,33 +152,39 @@ struct ContentView: View {
                         Text("Filter dan Urutkan")
                             .font(.custom(Cnst.txt.fInterBold, size: 16))
                         Spacer()
-                        Text("Reset")
-                            .underline()
-                            .font(.custom(Cnst.txt.fInterRegular, size: 14))
-                            .foregroundColor(.R100)
+                        Button {
+                            selectFilterPrice = 0...1000000
+                            selectSortType = 0
+                            showFilter = false
+                            viewModel.GetReadDataFromList()
+                        } label: {
+                            Text("Reset")
+                                .underline()
+                                .font(.custom(Cnst.txt.fInterRegular, size: 14))
+                                .foregroundColor(.R100)
+                        }
+
                     }
                     VStack(alignment: .leading, spacing: 16) {
                         VStack(alignment: .leading, spacing: 12) {
                             Text("Urutkan berdasarkan...")
                                 .font(.custom(Cnst.txt.fInterSemiBold, size: 14))
                             VStack(alignment: .leading, spacing: 8) {
-                                ForEach(1...4, id: \.self) { _ in
+                                ForEach(sortingData) { sort in
                                     HStack {
-                                        //let slct = selectSortingResto == srt
-                                        //Image(systemName: slct ? "record.circle": "circle")
-                                        Image(systemName: "circle")
+                                        let slct = selectSortType == sort.vl
+                                        Image(systemName: slct ? "record.circle": "circle")
                                             .resizable()
                                             .frame(width: 20, height: 20)
-                                            //.foregroundColor(slct ? .JKP100: .JKB50)
-                                            .foregroundColor(.R100)
+                                            .foregroundColor(slct ? .R100: .N50)
                                             .frame(width: 24, height: 24)
-                                        Text("Harga terendah")
+                                        Text(sort.tt)
                                             .font(.custom(Cnst.txt.fInterRegular, size: 14))
                                     }
                                     .contentShape(Rectangle())
                                     .onTapGesture {
                                         withAnimation {
-                                            //selectSortingResto = srt
+                                            selectSortType = sort.vl
                                         }
                                     }
                                 }
@@ -185,7 +198,7 @@ struct ContentView: View {
                         VStack(alignment: .leading, spacing: 36) {
                             Text("Hanya tampilkan dengan harga...")
                                 .font(.custom(Cnst.txt.fInterSemiBold, size: 14))
-                            CustomRangedSliderView(value: $sliderPosition, bounds: 0...1000000)
+                            CustomRangedSliderView(value: $selectFilterPrice, bounds: 0...1000000)
                         }
                     }
                 }
@@ -195,6 +208,7 @@ struct ContentView: View {
             Button {
                 withAnimation {
                     showFilter = false
+                    viewModel.SortFilterListFish(typeSort: selectSortType, rangePrice: selectFilterPrice)
                 }
             } label: {
                 Text("Tampilkan Hasil")
@@ -214,6 +228,8 @@ struct ContentView: View {
         .frame(height: 450 + (GetHeightSafeArea() ?? 0))
     }
 }
+
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

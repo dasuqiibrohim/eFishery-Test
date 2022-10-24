@@ -87,7 +87,7 @@ struct CustomRangedSliderView: View {
     }
     @ViewBuilder func thumbView(position: CGPoint, value: Float) -> some View {
         ZStack {
-            Text(String(value))
+            Text(String(Int(value)).toRupiah)
                 .font(.custom(Cnst.txt.fInterRegular, size: 14))
                 .offset(y: -20)
             Circle()

@@ -17,8 +17,8 @@ class ContentViewModel: BaseViewModel {
     func GetReadDataFromList() {
         self.shmrAll = true
         CentralRepository.shared.ReadDataFromList { reslt in
-            self.HandleWrapperObject(dly: .medium, result: reslt) { dt in
-                self.myListFish = dt?.filter{ $0.komoditas != nil } ?? []
+            self.HandleWrapperObject(dly: .long, result: reslt) { dt in
+                self.myListFish = dt?.filter{ $0.komoditas != nil && $0.areaProvinsi != nil && $0.areaKota != nil && $0.size != nil && $0.price != nil } ?? []
                 self.shmrAll = false
             }
         }
@@ -38,17 +38,24 @@ class ContentViewModel: BaseViewModel {
         }
     }
     
-    func convertToRupiah(_ str: String) -> String {
-        let harga = Int(str) ?? 0
-         
-        let formatter = NumberFormatter()
-        formatter.locale = Locale(identifier: "id_ID")
-        formatter.groupingSeparator = "."
-        formatter.numberStyle = .decimal
-        if let formattedTipAmount = formatter.string(from: harga as NSNumber) {
-            return "Rp \(formattedTipAmount)"
-        } else {
-            return "Format rupiah salah."
+    func SortFilterListFish(typeSort: Int, rangePrice: ClosedRange<Float>) {
+        shmrAll = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [self] in
+            myListFish = myListFish.filter({ $0.price!.toInt >= Int(rangePrice.lowerBound) && $0.price!.toInt <= Int(rangePrice.upperBound) })
+            
+            switch typeSort {
+            case 1:
+                myListFish = myListFish.sorted(by: { $0.price!.toInt < $1.price!.toInt })
+            case 2:
+                myListFish = myListFish.sorted(by: { $0.price!.toInt > $1.price!.toInt })
+            case 3:
+                myListFish = myListFish.sorted(by: { $0.size!.toInt < $1.size!.toInt })
+            case 4:
+                myListFish = myListFish.sorted(by: { $0.size!.toInt > $1.size!.toInt })
+            default:
+                break
+            }
+            shmrAll = false
         }
     }
 }
