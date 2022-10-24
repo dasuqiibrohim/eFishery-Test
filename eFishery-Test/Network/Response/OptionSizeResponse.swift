@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct OptionSizeResponse: Codable {
-    var size: String
+struct OptionSizeResponse: Codable, Equatable {
+    var size: String = ""
 }

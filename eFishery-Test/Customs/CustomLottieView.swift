@@ -36,3 +36,25 @@ struct CustomLottieView: UIViewRepresentable {
     func updateUIView(_ uiView: UIViewType, context: Context) {
     }
 }
+
+struct CustomLoadingLottieView<Content>: View where Content: View {
+    @Binding var isShowing: Bool
+    var content: () -> Content
+    
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .center) {
+                self.content()
+                    .background(Color.N100.opacity(0.5))
+                    .ignoresSafeArea()
+                    .disabled(self.isShowing)
+                
+                if isShowing {
+                    CustomLottieView(jsonName: Cnst.ltt.loading)
+                        .frame(width: geometry.size.width / 2,
+                               height: geometry.size.height / 5)
+                }
+            }
+        }
+    }
+}

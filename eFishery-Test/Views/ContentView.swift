@@ -15,8 +15,8 @@ struct ContentView: View {
     
     private let sortingData = [SortStructModel(tt: "Harga: Terendah", vl: 1),
                                SortStructModel(tt: "Harga: Tertinggi", vl: 2),
-                               SortStructModel(tt: "Size: Terkecil", vl: 3),
-                               SortStructModel(tt: "Size: Terbesar", vl: 4)]
+                               SortStructModel(tt: "Ukuran: Terkecil", vl: 3),
+                               SortStructModel(tt: "Ukuran: Terbesar", vl: 4)]
     private let itemColumns = [GridItem(.flexible()),
                                 GridItem(.flexible())]
     
@@ -30,10 +30,17 @@ struct ContentView: View {
                         .foregroundColor(.N100)
                     Spacer()
                     
+                   
                     Image(systemName: "plus.square")
                         .font(.custom(Cnst.txt.fInterBold, size: 16))
                         .foregroundColor(.N100)
                         .frame(width: 24, height: 24)
+                        .onTapGesture {
+                            withAnimation {
+                                viewModel.GotoAddContentView()
+                            }
+                        }
+                    
                     Image(systemName: "list.bullet.below.rectangle")
                         .font(.custom(Cnst.txt.fInterBold, size: 16))
                         .foregroundColor(.N100)
@@ -102,11 +109,10 @@ struct ContentView: View {
             }
         }
         .navigationBarHidden(true)
+        .background{ NavigationLink(destination: viewModel.destView, isActive: $viewModel.actv) {EmptyView()} }
         .overlay { CustomSheetShowHide(show: $showFilter) { ListFishilterSortSheet() } }
         .onAppear {
             viewModel.GetReadDataFromList()
-            //viewModel.GetReadDataFromOptionArea()
-            //viewModel.GetReadDataFromSize()
         }
     }
 
@@ -263,8 +269,6 @@ struct ContentView: View {
         .frame(height: 450 + (GetHeightSafeArea() ?? 0))
     }
 }
-
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

@@ -22,6 +22,7 @@ extension Cnst {
         static let errorSystem = "error_system"
     }
     struct ltt {
+        static let loading: String = "loading"
         static let search = "search_lottie"
     }
     struct ntw {

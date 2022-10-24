@@ -7,6 +7,7 @@
 
 import Foundation
 
-struct OptionAreaResponse: Codable {
-    var province, city: String?
+struct OptionAreaResponse: Codable, Equatable {
+    var province: String? = ""
+    var city: String? = ""
 }

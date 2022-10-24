@@ -29,6 +29,11 @@
 		6E1EE6D429023E44008422D1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E1EE6D329023E44008422D1 /* Assets.xcassets */; };
 		6E1EE6D729023E44008422D1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E1EE6D629023E44008422D1 /* Preview Assets.xcassets */; };
 		6E2223EA2906371500C29359 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 6E2223E92906371500C29359 /* Lottie */; };
+		6E2223EC290639E800C29359 /* AddContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2223EB290639E800C29359 /* AddContentView.swift */; };
+		6E2223EE2906581900C29359 /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 6E2223ED2906581900C29359 /* loading.json */; };
+		6E2223F02906658F00C29359 /* NewFishStructModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2223EF2906658F00C29359 /* NewFishStructModel.swift */; };
+		6E2223F2290667C000C29359 /* AddContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2223F1290667C000C29359 /* AddContentViewModel.swift */; };
+		6E2223F429066FBF00C29359 /* KeyboardResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2223F329066FBF00C29359 /* KeyboardResponder.swift */; };
 		6E60A3B1290347F4009BB4C7 /* CustomSheetShowHide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E60A3B0290347F4009BB4C7 /* CustomSheetShowHide.swift */; };
 		6E60A3B329034AD9009BB4C7 /* CustomRoundSpecificCornerShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E60A3B229034AD9009BB4C7 /* CustomRoundSpecificCornerShape.swift */; };
 		6E60A3B529034B3F009BB4C7 /* ExtensionUIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E60A3B429034B3F009BB4C7 /* ExtensionUIApplication.swift */; };
@@ -64,6 +69,11 @@
 		6E1EE6D129023E43008422D1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		6E1EE6D329023E44008422D1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6E1EE6D629023E44008422D1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		6E2223EB290639E800C29359 /* AddContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContentView.swift; sourceTree = "<group>"; };
+		6E2223ED2906581900C29359 /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
+		6E2223EF2906658F00C29359 /* NewFishStructModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFishStructModel.swift; sourceTree = "<group>"; };
+		6E2223F1290667C000C29359 /* AddContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContentViewModel.swift; sourceTree = "<group>"; };
+		6E2223F329066FBF00C29359 /* KeyboardResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardResponder.swift; sourceTree = "<group>"; };
 		6E60A3B0290347F4009BB4C7 /* CustomSheetShowHide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSheetShowHide.swift; sourceTree = "<group>"; };
 		6E60A3B229034AD9009BB4C7 /* CustomRoundSpecificCornerShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRoundSpecificCornerShape.swift; sourceTree = "<group>"; };
 		6E60A3B429034B3F009BB4C7 /* ExtensionUIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIApplication.swift; sourceTree = "<group>"; };
@@ -114,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				6E084B6329062D8B00102509 /* SortStructModel.swift */,
+				6E2223EF2906658F00C29359 /* NewFishStructModel.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -122,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				6E084B662906323700102509 /* search_lottie.json */,
+				6E2223ED2906581900C29359 /* loading.json */,
 			);
 			path = Lottie;
 			sourceTree = "<group>";
@@ -185,6 +197,7 @@
 				6E60A3B629034FA4009BB4C7 /* CustomRangedSliderView.swift */,
 				6E04A7F22905DA4A00DC5894 /* CustomErrorSheet.swift */,
 				6E084B682906357700102509 /* CustomLottieView.swift */,
+				6E2223F329066FBF00C29359 /* KeyboardResponder.swift */,
 			);
 			path = Customs;
 			sourceTree = "<group>";
@@ -194,6 +207,8 @@
 			children = (
 				6E1EE6D129023E43008422D1 /* ContentView.swift */,
 				6E04A7D62905CC4D00DC5894 /* ContentViewModel.swift */,
+				6E2223EB290639E800C29359 /* AddContentView.swift */,
+				6E2223F1290667C000C29359 /* AddContentViewModel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -308,6 +323,7 @@
 				6ED3B3402902775D004C41FF /* Inter-Bold.ttf in Resources */,
 				6E1EE6D729023E44008422D1 /* Preview Assets.xcassets in Resources */,
 				6ED3B3412902775D004C41FF /* Inter-Regular.ttf in Resources */,
+				6E2223EE2906581900C29359 /* loading.json in Resources */,
 				6ED3B3422902775D004C41FF /* Inter-SemiBold.ttf in Resources */,
 				6E1EE6D429023E44008422D1 /* Assets.xcassets in Resources */,
 			);
@@ -321,6 +337,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E04A7DD2905CE3B00DC5894 /* CentralRepository.swift in Sources */,
+				6E2223F02906658F00C29359 /* NewFishStructModel.swift in Sources */,
 				6E04A7EF2905D7C000DC5894 /* BaseViewModel.swift in Sources */,
 				6E04A7E32905D16B00DC5894 /* OptionAreaResponse.swift in Sources */,
 				6E60A3B329034AD9009BB4C7 /* CustomRoundSpecificCornerShape.swift in Sources */,
@@ -332,8 +349,11 @@
 				6E04A7E82905D20D00DC5894 /* NewFishListResponse.swift in Sources */,
 				6E04A7E62905D18100DC5894 /* OptionSizeResponse.swift in Sources */,
 				6E1EE6D029023E43008422D1 /* eFishery_TestApp.swift in Sources */,
+				6E2223EC290639E800C29359 /* AddContentView.swift in Sources */,
 				6E04A7D72905CC4D00DC5894 /* ContentViewModel.swift in Sources */,
 				6ED3B33B290276F6004C41FF /* AppStorageHelper.swift in Sources */,
+				6E2223F2290667C000C29359 /* AddContentViewModel.swift in Sources */,
+				6E2223F429066FBF00C29359 /* KeyboardResponder.swift in Sources */,
 				6E04A7D92905CCAE00DC5894 /* BaseRepository.swift in Sources */,
 				6E084B692906357700102509 /* CustomLottieView.swift in Sources */,
 				6ED3B344290277B3004C41FF /* ExtensionColor.swift in Sources */,

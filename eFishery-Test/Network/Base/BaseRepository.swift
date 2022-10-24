@@ -14,7 +14,7 @@ protocol ApiConfig {
     var parameter: [String: Any] { get }
     var header: [String: String] { get }
     var method: HttpMethod { get }
-    var body: [String: Any] { get }
+    var body: [[String: Any]] { get }
 }
 enum HttpMethod: String {
     case post  = "POST"
@@ -22,6 +22,23 @@ enum HttpMethod: String {
     case del   = "DELETE"
     case put   = "PUT"
     case patch = "PATCH"
+}
+extension ApiConfig {
+    var uuid: String {
+        return UIDevice.current.identifierForVendor!.uuidString
+    }
+    var timestamp: String {
+        return "\(Int64(Date().timeIntervalSince1970 * 1000))"
+    }
+    var transmissionDate: String {
+        let date = Date()
+        let calendar = Calendar.current
+        let years = calendar.component(.year, from: date)
+        let mounth = calendar.component(.month, from: date)
+        let day = calendar.component(.day, from: date)
+        
+        return "\(years)-\(mounth)-\(day) 00:00:00.000+07:00"
+    }
 }
 class BaseRepository {
     func urlRequestr<T: Codable>(route: ApiConfig, completion: @escaping (Result<T, NetworkError>) -> Void) {
@@ -46,7 +63,7 @@ class BaseRepository {
         print("--> Accessing URL: \(completeUrl)")
         print("--> Header: \(route.header)")
         print("--> Method: \(route.method.rawValue)")
-        print("--> Body: \(route.method != .get ? route.body: [:])")
+        print("--> Body: \(route.method != .get ? route.body: [])")
         print("--> --------------------------------- END -----------------------------------------")
         //#endif
 

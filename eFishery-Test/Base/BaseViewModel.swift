@@ -17,6 +17,8 @@ class BaseViewModel: NSObject, ObservableObject {
     @Published var isToast = false
     @Published var textToast = ""
     
+    @Published var shmrAll: Bool = false
+    
     @Published var isExit = false
     
     @Published var limid = 10
@@ -56,6 +58,7 @@ class BaseViewModel: NSObject, ObservableObject {
             UIApplication.shared.endEditing()
             BaseState.shared.isLoading = false
             self.isRefresh = false
+            self.shmrAll = false
         }
     }
     

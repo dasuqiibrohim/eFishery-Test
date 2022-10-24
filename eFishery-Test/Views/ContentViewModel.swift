@@ -9,12 +9,14 @@ import SwiftUI
 import Combine
 
 class ContentViewModel: BaseViewModel {
+    @Published var destView: AnyView = AnyView(EmptyView())
+    @Published var actv: Bool = false
+    
     @Published var myListFish: [FishListResponse] = [FishListResponse(), FishListResponse()]
     @Published var sListFish: [FishListResponse]? = []
     @Published var myOptionArea: [OptionAreaResponse] = []
     @Published var myOptionSize: [OptionSizeResponse] = []
     
-    @Published var shmrAll: Bool = false
     
     @Published var searchText = ""
     private var searchCancellable: AnyCancellable?
@@ -36,25 +38,37 @@ class ContentViewModel: BaseViewModel {
     }
     
     func GetReadDataFromList() {
-        self.shmrAll = true
+        shmrAll = true
         CentralRepository.shared.ReadDataFromList { reslt in
-            self.HandleWrapperObject(dly: .long, result: reslt) { dt in
-                self.myListFish = dt?.filter{ $0.komoditas != nil && $0.areaProvinsi != nil && $0.areaKota != nil && $0.size != nil && $0.price != nil } ?? []
-                self.shmrAll = false
+            self.HandleWrapperObject(dly: .long, result: reslt) { dta in
+                if let dt = dta {
+                    self.myListFish = dt.filter({ $0.komoditas != nil && $0.areaProvinsi != nil && $0.areaKota != nil && $0.size != nil && $0.price != nil })
+                    self.appStorage.setListFishData(data: self.myListFish)
+                } else {
+                    self.myListFish = self.appStorage.getListFishData()
+                }
             }
         }
     }
-    func GetReadDataFromOptionArea() {
+    private func GetReadDataFromOptionArea() {
         CentralRepository.shared.ReadDataFromOpetionArea { reslt in
-            self.HandleWrapperObject(dly: .short, result: reslt) { dt in
-                self.myOptionArea = dt ?? []
+            self.HandleWrapperObject(dly: .short, result: reslt) { dta in
+                if let dt = dta {
+                    self.myOptionArea = dt.filter({ $0.province != nil && $0.city != nil })
+                    self.GetReadDataFromSize()
+                }
             }
         }
     }
-    func GetReadDataFromSize() {
+    private func GetReadDataFromSize() {
         CentralRepository.shared.ReadDataFromOptionSize { reslt in
-            self.HandleWrapperObject(dly: .short, result: reslt) { dt in
-                self.myOptionSize = dt ?? []
+            self.HandleWrapperObject(dly: .none, result: reslt) { dta in
+                if let dt = dta {
+                    self.myOptionSize = dt
+                    self.DissLoadRefr()
+                    self.destView = AnyView(AddContentView(optionArea: self.myOptionArea, optionSize: self.myOptionSize))
+                    self.actv = true
+                }
             }
         }
     }
@@ -96,5 +110,9 @@ class ContentViewModel: BaseViewModel {
                 }
             }
         }
+    }
+    func GotoAddContentView() {
+        ShowLoading()
+        GetReadDataFromOptionArea()
     }
 }

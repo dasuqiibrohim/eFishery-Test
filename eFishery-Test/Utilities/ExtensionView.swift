@@ -13,9 +13,9 @@ extension View {
     //presenting: { self },
     //text: text)
     //}
-    //func ShowLoadingLottie(isShowing: Binding<Bool>) -> some View {
-    //CustomLoadingLottie(isShowing: isShowing, content: { self.background(Color.JKW100) })
-    //}
+    func ShowLoadingLottie(isShowing: Binding<Bool>) -> some View {
+        CustomLoadingLottieView(isShowing: isShowing, content: { self.background(Color.N0) })
+    }
     func ShowErrorSheet(isShowing: Binding<Bool>, err: Binding<NetworkError>) -> some View {
         self.overlay(
             CustomSheetShowHide(show: isShowing, viewBuilder: {

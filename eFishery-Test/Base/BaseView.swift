@@ -22,7 +22,7 @@ struct BaseView<Content>: View where Content: View {
         .preferredColorScheme(.light)
         .navigationViewStyle(.stack)
         //.ShowToast(isShowing: $baseState.isToast, text: $baseState.textToast)
-        //.ShowLoadingLottie(isShowing: $baseState.isLoading)
+        .ShowLoadingLottie(isShowing: $baseState.isLoading)
         .ShowErrorSheet(isShowing: $baseState.isError, err: $baseState.errorText)
     }
 }

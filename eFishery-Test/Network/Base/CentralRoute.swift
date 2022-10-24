@@ -9,7 +9,7 @@ import Foundation
 
 enum CentralRoute: ApiConfig {
     case readDataFromList
-    case addRowsToList
+    case addRowsToList(req: NewFishStructModel)
     case readDataFromOptionArea
     case readDataFromOptionSize
 }
@@ -45,21 +45,21 @@ extension CentralRoute {
             return .get
         }
     }
-    var body: [String : Any] {
+    var body: [[String : Any]] {
         switch self {
-        case .addRowsToList:
+        case .addRowsToList(let req):
             return [
-                "uuid": "96F51B5F-2CD5-44D1-85EF-7987025A6A46",
-                "komoditas": "Sarden",
-                "area_provinsi": "JAWA TIMUR",
-                "area_kota": "SITUBONDO",
-                "size": "30",
-                "price": "200000",
-                "tgl_parsed": "2022-10-12 00:00:00.000+07:00",
-                "timestamp": "1666511718578"
+                ["uuid": uuid,
+                "komoditas": req.komoditas,
+                "area_provinsi": req.provinsi.uppercased(),
+                "area_kota": req.kota.uppercased(),
+                "size": req.size,
+                "price": req.price,
+                "tgl_parsed": transmissionDate,
+                "timestamp": timestamp]
             ]
         default:
-            return [:]
+            return []
         }
     }
 }

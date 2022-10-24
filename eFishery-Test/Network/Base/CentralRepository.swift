@@ -19,4 +19,7 @@ class CentralRepository: BaseRepository {
     func ReadDataFromOptionSize(completion: @escaping (Result<[OptionSizeResponse], NetworkError>) -> Void) {
         urlRequestr(route: CentralRoute.readDataFromOptionSize, completion: completion)
     }
+    func AddRowsToList(req: NewFishStructModel, completion: @escaping (Result<NewFishListResponse, NetworkError>) -> Void) {
+        urlRequestr(route: CentralRoute.addRowsToList(req: req), completion: completion)
+    }
 }
