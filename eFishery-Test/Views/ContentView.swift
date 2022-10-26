@@ -114,6 +114,9 @@ struct ContentView: View {
         .onAppear {
             viewModel.GetReadDataFromList()
         }
+        .onChange(of: viewModel.searchText) { _ in
+            viewModel.sListFish = nil
+        }
     }
 
     
